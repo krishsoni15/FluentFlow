@@ -18,7 +18,24 @@ export const metadata: Metadata = {
     template: `%s - FluentFlow`,
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      {
+        url: "/WhatsApp_Image_2026-04-27_at_7.17.30_PM-removebg-preview%20(1).png",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/WhatsApp_Image_2026-04-27_at_7.17.30_PM-removebg-preview%20(1).png",
+        type: "image/png",
+      },
+    ],
+    shortcut: [
+      {
+        url: "/WhatsApp_Image_2026-04-27_at_7.17.30_PM-removebg-preview%20(1).png",
+        type: "image/png",
+      },
+    ],
   },
 };
 
