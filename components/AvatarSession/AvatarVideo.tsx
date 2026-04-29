@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect } from "react";
-import { ConnectionQuality } from "@heygen/streaming-avatar";
+import { ConnectionQuality } from "@heygen/liveavatar-web-sdk";
 
 import { useConnectionQuality } from "../logic/useConnectionQuality";
 import { useStreamingAvatarSession } from "../logic/useStreamingAvatarSession";
@@ -9,28 +9,18 @@ import { CloseIcon } from "../Icons";
 import { Button } from "../Button";
 
 export const AvatarVideo = forwardRef<HTMLVideoElement>(({}, ref) => {
-  const { sessionState, stopAvatar, stream } = useStreamingAvatarSession();
+  const { sessionState, stopAvatar, avatarRef } = useStreamingAvatarSession();
   const { connectionQuality } = useConnectionQuality();
 
   const isLoaded = sessionState === StreamingAvatarSessionState.CONNECTED;
 
   // Connect the stream to the video element
   useEffect(() => {
-    if (ref && 'current' in ref && ref.current && stream) {
-      console.log('Connecting stream to video element:', stream);
-      ref.current.srcObject = stream;
-      ref.current.play().catch((error) => {
-        console.error('Error playing video:', error);
-      });
-    } else {
-      console.log('Video connection conditions:', {
-        hasRef: !!ref,
-        hasCurrent: ref && 'current' in ref,
-        hasVideoElement: ref && 'current' in ref && !!ref.current,
-        hasStream: !!stream
-      });
+    if (ref && 'current' in ref && ref.current && isLoaded && avatarRef.current) {
+      console.log('Attaching stream to video element');
+      avatarRef.current.attach(ref.current);
     }
-  }, [stream, ref]);
+  }, [isLoaded, ref, avatarRef]);
 
   return (
     <>

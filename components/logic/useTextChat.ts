@@ -1,4 +1,3 @@
-import { TaskMode, TaskType } from "@heygen/streaming-avatar";
 import { useCallback } from "react";
 
 import { useStreamingAvatarContext } from "./context";
@@ -7,17 +6,25 @@ export const useTextChat = () => {
   const { avatarRef, addUserMessage } = useStreamingAvatarContext();
 
   const sendMessage = useCallback(
-    (message: string) => {
+    async (message: string) => {
       if (!avatarRef.current) return;
 
       // Add user message to history for text chat
       addUserMessage(message);
 
-      avatarRef.current.speak({
-        text: message,
-        taskType: TaskType.TALK,
-        taskMode: TaskMode.ASYNC,
-      });
+      try {
+        const res = await fetch("/api/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: message }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Request failed");
+        
+        avatarRef.current.repeat(data.reply);
+      } catch (error) {
+        console.error("Gemini fetch error:", error);
+      }
     },
     [avatarRef, addUserMessage],
   );
@@ -29,11 +36,19 @@ export const useTextChat = () => {
       // Add user message to history for text chat
       addUserMessage(message);
 
-      return await avatarRef.current?.speak({
-        text: message,
-        taskType: TaskType.TALK,
-        taskMode: TaskMode.SYNC,
-      });
+      try {
+        const res = await fetch("/api/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: message }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Request failed");
+        
+        return avatarRef.current?.repeat(data.reply);
+      } catch (error) {
+        console.error("Gemini fetch error:", error);
+      }
     },
     [avatarRef, addUserMessage],
   );
@@ -45,11 +60,7 @@ export const useTextChat = () => {
       // Add user message to history for text chat
       addUserMessage(message);
 
-      return avatarRef.current?.speak({
-        text: message,
-        taskType: TaskType.REPEAT,
-        taskMode: TaskMode.ASYNC,
-      });
+      return avatarRef.current?.repeat(message);
     },
     [avatarRef, addUserMessage],
   );
@@ -61,11 +72,7 @@ export const useTextChat = () => {
       // Add user message to history for text chat
       addUserMessage(message);
 
-      return await avatarRef.current?.speak({
-        text: message,
-        taskType: TaskType.REPEAT,
-        taskMode: TaskMode.SYNC,
-      });
+      return avatarRef.current?.repeat(message);
     },
     [avatarRef, addUserMessage],
   );

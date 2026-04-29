@@ -23,9 +23,10 @@ export const useVoiceChat = () => {
       try {
         setIsVoiceChatLoading(true);
         console.log('Starting voice chat with muted:', isInputAudioMuted);
-        await avatarRef.current?.startVoiceChat({
-          isInputAudioMuted,
-        });
+        await avatarRef.current.voiceChat.start();
+        if (isInputAudioMuted) {
+          await avatarRef.current.voiceChat.mute();
+        }
         setIsVoiceChatLoading(false);
         setIsVoiceChatActive(true);
         setIsMuted(!!isInputAudioMuted);
@@ -43,20 +44,20 @@ export const useVoiceChat = () => {
 
   const stopVoiceChat = useCallback(() => {
     if (!avatarRef.current) return;
-    avatarRef.current?.closeVoiceChat();
+    avatarRef.current.voiceChat.stop();
     setIsVoiceChatActive(false);
     setIsMuted(true);
   }, [avatarRef, setIsMuted, setIsVoiceChatActive]);
 
-  const muteInputAudio = useCallback(() => {
+  const muteInputAudio = useCallback(async () => {
     if (!avatarRef.current) return;
-    avatarRef.current?.muteInputAudio();
+    await avatarRef.current.voiceChat.mute();
     setIsMuted(true);
   }, [avatarRef, setIsMuted]);
 
-  const unmuteInputAudio = useCallback(() => {
+  const unmuteInputAudio = useCallback(async () => {
     if (!avatarRef.current) return;
-    avatarRef.current?.unmuteInputAudio();
+    await avatarRef.current.voiceChat.unmute();
     setIsMuted(false);
   }, [avatarRef, setIsMuted]);
 

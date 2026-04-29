@@ -1,14 +1,14 @@
 export const AVATARS = [
   // Professional & Therapeutic
   {
-    avatar_id: "Ann_Therapist_public",
+    avatar_id: "fc9c1f9f-bc99-4fd9-a6b2-8b4b5669a046",
     name: "Ann Therapist",
     description: "Professional therapist for counseling practice",
     category: "Therapy",
     emoji: "👩‍⚕️",
   },
   {
-    avatar_id: "Shawn_Therapist_public",
+    avatar_id: "7b888024-f8c9-4205-95e1-78ce01497bda",
     name: "Shawn Therapist",
     description: "Supportive therapist for mental health discussions",
     category: "Therapy",
@@ -17,14 +17,14 @@ export const AVATARS = [
 
   // Health & Fitness
   {
-    avatar_id: "Bryan_FitnessCoach_public",
+    avatar_id: "55eec60c-d665-4972-a529-bbdcaf665ab8",
     name: "Bryan Fitness Coach",
     description: "Motivational fitness coach for wellness conversations",
     category: "Fitness",
     emoji: "💪",
   },
   {
-    avatar_id: "Dexter_Doctor_Standing2_public",
+    avatar_id: "5761a14c-8720-4ce1-8c2b-3f351718fc79",
     name: "Dexter Doctor",
     description: "Medical professional for healthcare discussions",
     category: "Medical",
@@ -33,7 +33,7 @@ export const AVATARS = [
 
   // Technology & Business
   {
-    avatar_id: "Elenora_IT_Sitting_public",
+    avatar_id: "8175dfc2-7858-49d6-b5fa-0c135d1c4bad",
     name: "Elenora Tech Expert",
     description: "IT specialist for technical and analytical discussions",
     category: "Technology",
@@ -42,14 +42,14 @@ export const AVATARS = [
 
   // Communication & Education
   {
-    avatar_id: "Anna_public",
+    avatar_id: "c72a9099-84b9-4d5d-98f4-a19ba131e654",
     name: "Anna Presenter",
     description: "Professional presenter for public speaking practice",
     category: "Communication",
     emoji: "🎤",
   },
   {
-    avatar_id: "Emma_public",
+    avatar_id: "cd1d101c-9273-431b-8069-63beef736bec",
     name: "Emma Interviewer",
     description: "HR professional for job interview practice",
     category: "Business",
@@ -58,14 +58,14 @@ export const AVATARS = [
 
   // Customer Service & Sales
   {
-    avatar_id: "David_public",
+    avatar_id: "dc2935cf-5863-4f08-943b-c7478aea59fb",
     name: "David Sales Pro",
     description: "Sales expert for negotiation and persuasion practice",
     category: "Sales",
     emoji: "🤝",
   },
   {
-    avatar_id: "Sarah_public",
+    avatar_id: "65f9e3c9-d48b-4118-b73a-4ae2e3cbb8f0",
     name: "Sarah Customer Care",
     description: "Customer service specialist for support role-play",
     category: "Customer Service",
@@ -74,14 +74,14 @@ export const AVATARS = [
 
   // Education & Training
   {
-    avatar_id: "Michael_public",
+    avatar_id: "0930fd59-c8ad-434d-ad53-b391a1768720",
     name: "Michael Professor",
     description: "Academic professor for educational discussions",
     category: "Education",
     emoji: "👨‍🏫",
   },
   {
-    avatar_id: "Lisa_public",
+    avatar_id: "864eb535-71eb-47ec-9f2d-054083431165",
     name: "Lisa Coach",
     description: "Life coach for personal development conversations",
     category: "Coaching",
@@ -90,14 +90,14 @@ export const AVATARS = [
 
   // International & Cultural
   {
-    avatar_id: "Carlos_public",
+    avatar_id: "64b526e4-741c-43b6-a918-4e40f3261c7a",
     name: "Carlos Cultural Guide",
     description: "Cultural ambassador for international communication",
     category: "Cultural",
     emoji: "🌍",
   },
   {
-    avatar_id: "Priya_public",
+    avatar_id: "7299c55d-1f45-482d-915c-e5efdc9dd266",
     name: "Priya Mentor",
     description: "Mentor for career and personal guidance",
     category: "Mentorship",
@@ -150,7 +150,7 @@ export const generatePersonalizedScenarios = (userProfile: any) => {
       category: "Personal",
       difficulty: "Beginner",
       duration: "5-10 min",
-      avatar: "Anna_public",
+      avatar: "c72a9099-84b9-4d5d-98f4-a19ba131e654",
       emoji: "👋",
       prompts: [
         `Hello! I'm ${userProfile.name}. Nice to meet you!`,
@@ -201,15 +201,15 @@ export const generatePersonalizedScenarios = (userProfile: any) => {
 
 const getLanguageAvatar = (language: string) => {
   const avatarMap: { [key: string]: string } = {
-    'Spanish': 'Anna_public',
-    'French': 'Emma_public',
-    'German': 'Michael_public',
-    'Chinese': 'Lisa_public',
-    'Japanese': 'Priya_public',
-    'Korean': 'Carlos_public',
-    'English': 'Anna_public'
+    'Spanish': 'c72a9099-84b9-4d5d-98f4-a19ba131e654',
+    'French': 'cd1d101c-9273-431b-8069-63beef736bec',
+    'German': '0930fd59-c8ad-434d-ad53-b391a1768720',
+    'Chinese': '864eb535-71eb-47ec-9f2d-054083431165',
+    'Japanese': '7299c55d-1f45-482d-915c-e5efdc9dd266',
+    'Korean': '64b526e4-741c-43b6-a918-4e40f3261c7a',
+    'English': 'c72a9099-84b9-4d5d-98f4-a19ba131e654'
   };
-  return avatarMap[language] || 'Anna_public';
+  return avatarMap[language] || 'c72a9099-84b9-4d5d-98f4-a19ba131e654';
 };
 
 const getLanguageEmoji = (language: string) => {
@@ -227,13 +227,13 @@ const getLanguageEmoji = (language: string) => {
 
 const getGoalAvatar = (goal: string) => {
   const avatarMap: { [key: string]: string } = {
-    'Business Communication': 'David_public',
-    'Job Interviews': 'Emma_public',
-    'Presentations': 'Anna_public',
-    'Customer Service': 'Sarah_public',
-    'Travel': 'Carlos_public'
+    'Business Communication': 'dc2935cf-5863-4f08-943b-c7478aea59fb',
+    'Job Interviews': 'cd1d101c-9273-431b-8069-63beef736bec',
+    'Presentations': 'c72a9099-84b9-4d5d-98f4-a19ba131e654',
+    'Customer Service': '65f9e3c9-d48b-4118-b73a-4ae2e3cbb8f0',
+    'Travel': '64b526e4-741c-43b6-a918-4e40f3261c7a'
   };
-  return avatarMap[goal] || 'Lisa_public';
+  return avatarMap[goal] || '864eb535-71eb-47ec-9f2d-054083431165';
 };
 
 const getGoalEmoji = (goal: string) => {
@@ -324,7 +324,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Professional",
     difficulty: "Advanced",
     duration: "15-20 min",
-    avatar: "Elenora_IT_Sitting_public",
+    avatar: "8175dfc2-7858-49d6-b5fa-0c135d1c4bad",
     emoji: "👩‍💻",
     prompts: [
       "Tell me about yourself and your programming background.",
@@ -341,7 +341,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Professional",
     difficulty: "Intermediate",
     duration: "10-15 min",
-    avatar: "David_public",
+    avatar: "dc2935cf-5863-4f08-943b-c7478aea59fb",
     emoji: "🤝",
     prompts: [
       "Why are you interested in sales?",
@@ -358,7 +358,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Professional",
     difficulty: "Advanced",
     duration: "10-15 min",
-    avatar: "Anna_public",
+    avatar: "c72a9099-84b9-4d5d-98f4-a19ba131e654",
     emoji: "🎤",
     prompts: [
       "Present your latest project to the team.",
@@ -375,7 +375,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Professional",
     difficulty: "Intermediate",
     duration: "8-12 min",
-    avatar: "Sarah_public",
+    avatar: "65f9e3c9-d48b-4118-b73a-4ae2e3cbb8f0",
     emoji: "💬",
     prompts: [
       "I'm very disappointed with your service.",
@@ -394,7 +394,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Personal",
     difficulty: "Intermediate",
     duration: "20-30 min",
-    avatar: "Ann_Therapist_public",
+    avatar: "fc9c1f9f-bc99-4fd9-a6b2-8b4b5669a046",
     emoji: "👩‍⚕️",
     prompts: [
       "I've been feeling really stressed lately.",
@@ -411,7 +411,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Personal",
     difficulty: "Intermediate",
     duration: "15-20 min",
-    avatar: "Lisa_public",
+    avatar: "864eb535-71eb-47ec-9f2d-054083431165",
     emoji: "🌟",
     prompts: [
       "I'm not sure what career path to choose.",
@@ -428,7 +428,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Personal",
     difficulty: "Beginner",
     duration: "5-10 min",
-    avatar: "Michael_public",
+    avatar: "0930fd59-c8ad-434d-ad53-b391a1768720",
     emoji: "👨‍🏫",
     prompts: [
       "Introduce yourself to the group.",
@@ -447,7 +447,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Health",
     difficulty: "Beginner",
     duration: "10-15 min",
-    avatar: "Bryan_FitnessCoach_public",
+    avatar: "55eec60c-d665-4972-a529-bbdcaf665ab8",
     emoji: "💪",
     prompts: [
       "I want to lose weight but don't know where to start.",
@@ -464,7 +464,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Health",
     difficulty: "Intermediate",
     duration: "8-12 min",
-    avatar: "Dexter_Doctor_Standing2_public",
+    avatar: "5761a14c-8720-4ce1-8c2b-3f351718fc79",
     emoji: "👨‍⚕️",
     prompts: [
       "I've been having these symptoms...",
@@ -483,7 +483,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Cultural",
     difficulty: "Intermediate",
     duration: "10-15 min",
-    avatar: "Carlos_public",
+    avatar: "64b526e4-741c-43b6-a918-4e40f3261c7a",
     emoji: "🌍",
     prompts: [
       "Tell me about your culture's traditions.",
@@ -500,7 +500,7 @@ export const CONVERSATION_SCENARIOS = [
     category: "Personal",
     difficulty: "Beginner",
     duration: "12-18 min",
-    avatar: "Priya_public",
+    avatar: "7299c55d-1f45-482d-915c-e5efdc9dd266",
     emoji: "🎓",
     prompts: [
       "I need advice about my career path.",

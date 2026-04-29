@@ -1,12 +1,12 @@
 import {
   AvatarQuality,
-  StreamingEvents,
   VoiceChatTransport,
   VoiceEmotion,
   StartAvatarRequest,
   STTProvider,
   ElevenLabsModel,
-} from "@heygen/streaming-avatar";
+} from "./logic/types";
+import { SessionEvent, AgentEventsEnum } from "@heygen/liveavatar-web-sdk";
 import { useEffect, useRef, useState } from "react";
 import { useMemoizedFn, useUnmount } from "ahooks";
 
@@ -39,7 +39,7 @@ const DEFAULT_CONFIG: StartAvatarRequest = {
 };
 
 function InteractiveAvatar() {
-  const { initAvatar, startAvatar, stopAvatar, sessionState, stream } =
+  const { initAvatar, startAvatar, stopAvatar, sessionState } =
     useStreamingAvatarSession();
   const { startVoiceChat } = useVoiceChat();
 
@@ -51,6 +51,10 @@ function InteractiveAvatar() {
     try {
       const response = await fetch("/api/get-access-token", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(config),
       });
       const token = await response.text();
 
@@ -68,34 +72,34 @@ function InteractiveAvatar() {
       const newToken = await fetchAccessToken();
       const avatar = initAvatar(newToken);
 
-      avatar.on(StreamingEvents.AVATAR_START_TALKING, (e) => {
+      avatar.on(AgentEventsEnum.AVATAR_SPEAK_STARTED, (e) => {
         console.log("Avatar started talking", e);
       });
-      avatar.on(StreamingEvents.AVATAR_STOP_TALKING, (e) => {
+      avatar.on(AgentEventsEnum.AVATAR_SPEAK_ENDED, (e) => {
         console.log("Avatar stopped talking", e);
       });
-      avatar.on(StreamingEvents.STREAM_DISCONNECTED, () => {
+      avatar.on(SessionEvent.SESSION_DISCONNECTED, () => {
         console.log("Stream disconnected");
       });
-      avatar.on(StreamingEvents.STREAM_READY, (event) => {
-        console.log(">>>>> Stream ready:", event.detail);
+      avatar.on(SessionEvent.SESSION_STREAM_READY, () => {
+        console.log(">>>>> Stream ready");
       });
-      avatar.on(StreamingEvents.USER_START, (event) => {
+      avatar.on(AgentEventsEnum.USER_SPEAK_STARTED, (event) => {
         console.log(">>>>> User started talking:", event);
       });
-      avatar.on(StreamingEvents.USER_STOP, (event) => {
+      avatar.on(AgentEventsEnum.USER_SPEAK_ENDED, (event) => {
         console.log(">>>>> User stopped talking:", event);
       });
-      avatar.on(StreamingEvents.USER_END_MESSAGE, (event) => {
+      avatar.on(AgentEventsEnum.USER_TRANSCRIPTION, (event) => {
         console.log(">>>>> User end message:", event);
       });
-      avatar.on(StreamingEvents.USER_TALKING_MESSAGE, (event) => {
+      avatar.on(AgentEventsEnum.USER_TRANSCRIPTION_CHUNK, (event) => {
         console.log(">>>>> User talking message:", event);
       });
-      avatar.on(StreamingEvents.AVATAR_TALKING_MESSAGE, (event) => {
+      avatar.on(AgentEventsEnum.AVATAR_TRANSCRIPTION_CHUNK, (event) => {
         console.log(">>>>> Avatar talking message:", event);
       });
-      avatar.on(StreamingEvents.AVATAR_END_MESSAGE, (event) => {
+      avatar.on(AgentEventsEnum.AVATAR_TRANSCRIPTION, (event) => {
         console.log(">>>>> Avatar end message:", event);
       });
 
@@ -113,14 +117,7 @@ function InteractiveAvatar() {
     stopAvatar();
   });
 
-  useEffect(() => {
-    if (stream && mediaStream.current) {
-      mediaStream.current.srcObject = stream;
-      mediaStream.current.onloadedmetadata = () => {
-        mediaStream.current!.play();
-      };
-    }
-  }, [mediaStream, stream]);
+
 
   return (
     <div className="w-full flex flex-col gap-4">

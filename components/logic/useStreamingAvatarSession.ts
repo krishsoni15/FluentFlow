@@ -1,8 +1,10 @@
-import StreamingAvatar, {
+import {
+  LiveAvatarSession,
+  SessionEvent,
+  AgentEventsEnum,
   ConnectionQuality,
-  StartAvatarRequest,
-  StreamingEvents,
-} from "@heygen/streaming-avatar";
+} from "@heygen/liveavatar-web-sdk";
+import { StartAvatarRequest } from "./types";
 import { useCallback } from "react";
 
 import {
@@ -35,10 +37,7 @@ export const useStreamingAvatarSession = () => {
 
   const init = useCallback(
     (token: string) => {
-      avatarRef.current = new StreamingAvatar({
-        token,
-        basePath: basePath,
-      });
+      avatarRef.current = new LiveAvatarSession(token);
 
       return avatarRef.current;
     },
@@ -46,23 +45,22 @@ export const useStreamingAvatarSession = () => {
   );
 
   const handleStream = useCallback(
-    ({ detail }: { detail: MediaStream }) => {
-      setStream(detail);
+    () => {
       setSessionState(StreamingAvatarSessionState.CONNECTED);
     },
-    [setSessionState, setStream],
+    [setSessionState],
   );
 
   const stop = useCallback(async () => {
-    avatarRef.current?.off(StreamingEvents.STREAM_READY, handleStream);
-    avatarRef.current?.off(StreamingEvents.STREAM_DISCONNECTED, stop);
+    avatarRef.current?.off(SessionEvent.SESSION_STREAM_READY, handleStream);
+    avatarRef.current?.off(SessionEvent.SESSION_DISCONNECTED, stop);
     clearMessages();
     stopVoiceChat();
     setIsListening(false);
     setIsUserTalking(false);
     setIsAvatarTalking(false);
     setStream(null);
-    await avatarRef.current?.stopAvatar();
+    await avatarRef.current?.stop();
     setSessionState(StreamingAvatarSessionState.INACTIVE);
   }, [
     handleStream,
@@ -94,40 +92,39 @@ export const useStreamingAvatarSession = () => {
       }
 
       setSessionState(StreamingAvatarSessionState.CONNECTING);
-      avatarRef.current.on(StreamingEvents.STREAM_READY, handleStream);
-      avatarRef.current.on(StreamingEvents.STREAM_DISCONNECTED, stop);
+      avatarRef.current.on(SessionEvent.SESSION_STREAM_READY, handleStream);
+      avatarRef.current.on(SessionEvent.SESSION_DISCONNECTED, stop);
       avatarRef.current.on(
-        StreamingEvents.CONNECTION_QUALITY_CHANGED,
-        ({ detail }: { detail: ConnectionQuality }) =>
-          setConnectionQuality(detail),
+        SessionEvent.SESSION_CONNECTION_QUALITY_CHANGED,
+        (quality: ConnectionQuality) => setConnectionQuality(quality),
       );
-      avatarRef.current.on(StreamingEvents.USER_START, () => {
+      avatarRef.current.on(AgentEventsEnum.USER_SPEAK_STARTED, () => {
         setIsUserTalking(true);
       });
-      avatarRef.current.on(StreamingEvents.USER_STOP, () => {
+      avatarRef.current.on(AgentEventsEnum.USER_SPEAK_ENDED, () => {
         setIsUserTalking(false);
       });
-      avatarRef.current.on(StreamingEvents.AVATAR_START_TALKING, () => {
+      avatarRef.current.on(AgentEventsEnum.AVATAR_SPEAK_STARTED, () => {
         setIsAvatarTalking(true);
       });
-      avatarRef.current.on(StreamingEvents.AVATAR_STOP_TALKING, () => {
+      avatarRef.current.on(AgentEventsEnum.AVATAR_SPEAK_ENDED, () => {
         setIsAvatarTalking(false);
       });
       avatarRef.current.on(
-        StreamingEvents.USER_TALKING_MESSAGE,
+        AgentEventsEnum.USER_TRANSCRIPTION_CHUNK,
         handleUserTalkingMessage,
       );
       avatarRef.current.on(
-        StreamingEvents.AVATAR_TALKING_MESSAGE,
+        AgentEventsEnum.AVATAR_TRANSCRIPTION_CHUNK,
         handleStreamingTalkingMessage,
       );
-      avatarRef.current.on(StreamingEvents.USER_END_MESSAGE, handleEndMessage);
+      avatarRef.current.on(AgentEventsEnum.USER_TRANSCRIPTION, handleEndMessage);
       avatarRef.current.on(
-        StreamingEvents.AVATAR_END_MESSAGE,
+        AgentEventsEnum.AVATAR_TRANSCRIPTION,
         handleEndMessage,
       );
 
-      await avatarRef.current.createStartAvatar(config);
+      await avatarRef.current.start();
 
       return avatarRef.current;
     },

@@ -1,8 +1,7 @@
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { Fira_Code as FontMono, Inter as FontSans } from "next/font/google";
-
-
+import { Providers } from "@/components/Providers";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -36,9 +35,11 @@ export default function RootLayout({
     >
       <head />
       <body className="min-h-screen bg-black text-white" suppressHydrationWarning>
-        <main className="h-screen w-screen">
-          {children}
-        </main>
+        <Providers>
+          <main className="min-h-screen w-full">
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );

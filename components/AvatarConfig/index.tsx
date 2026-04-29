@@ -6,7 +6,7 @@ import {
   VoiceEmotion,
   StartAvatarRequest,
   VoiceChatTransport,
-} from "@heygen/streaming-avatar";
+} from "../logic/types";
 
 import { Input } from "../Input";
 import { Select } from "../Select";

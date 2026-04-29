@@ -1,4 +1,4 @@
-import { TaskType, TaskMode } from "@heygen/streaming-avatar";
+import { TaskType, TaskMode } from "../logic/types";
 import React, { useCallback, useEffect, useState } from "react";
 import { usePrevious } from "ahooks";
 import { motion } from "framer-motion";
